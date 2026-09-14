@@ -12,6 +12,20 @@
 
 ---
 
+## 🔐 Доступ владельца / Администратора (Owner CMS)
+- **Секретный мастер-ключ**: `CYBERX-OMSK-ROOT-2026`
+- **PIN-код по умолчанию**: `5500`
+- **Прямой URL для входа**: `/#admin?key=CYBERX-OMSK-ROOT-2026`
+- **Возможности панели CMS**:
+  1. **Прайс-лист тарифов (`prices`)**: Полное редактирование тарифов всех 3 клубов (Ленина 19, Мира 42к1, Серова 19А) и обеих категорий (ПК Зоны, Lounge & Симуляторы). Редактирование будней (ПН-ЧТ), выходных (ПТ-ВС), добавление/удаление строк и карточек категорий.
+  2. **Медиа & Фото-галерея (`media`)**: Загрузка фото напрямую с устройства владельца (Base64), ввод внешних URL, библиотека из 26+ локальных фото клубов с распределением по зонам и клубам.
+  3. **Ссылки & Контакты (`links`)**: Единый Telegram `@cyberxcommunityomsklenina`, группа VK, ссылка на Google Форму турниров, телефоны и адреса 3 клубов.
+  4. **Клубы & Зоны (`zones`)**: Редактирование описаний, характеристик, вместимости, тарифов в час/ночь.
+  5. **Турниры & Акции (`tournaments` / `promos`)**: Настройка призового фонда, дат, слотов, промокодов, скидок.
+  6. **Бэкап & Безопасность (`backup_security`)**: 1-Click экспорт полного JSON бэкапа базы сайта, 1-Click импорт JSON файла для мгновенного восстановления, сброс к заводским настройкам, смена PIN.
+
+---
+
 ## 🎨 Фирменный стиль и дизайн-система (CyberX Brand Guide)
 - **Основной алый**: `#E32124` (Hover/Active: `#FF2A2E`)
 - **Тёмный обсидиан фона**: `#020204` до `#050508`
@@ -25,25 +39,26 @@
 
 | Путь к файлу | Назначение |
 |---|---|
-| `src/App.tsx` | Главный shell приложения: Lenis плавный скролл, роутинг по secret hash `#admin`, инициализация звукового приветствия, модальные окна. |
-| `src/components/Hero.tsx` | Главный экран: 60fps фоновое видео (`public/hero-bg.mp4`), умный `IntersectionObserver` авто-паузы, навигация (`КЛУБЫ \| ПРАЙС \| ЖЕЛЕЗО \| ТУРНИРЫ \| АКЦИИ`), светящаяся алая капсула «НАЧАТЬ ЗНАКОМСТВО». |
-| `src/components/Header.tsx` | Фиксированная шапка: эффект macOS Blur Mask `backdrop-blur(16px)`, ссылки, кнопка «Как добраться?», переключатель Mute/Unmute. |
-| `src/components/PriceSection.tsx` | Интерактивный прайс-лист: вкладки ПК-зоны и Lounge/Sim-Racing, переключатель 3 клубов, точные тарифы Ленина 19 из официального прейскуранта. |
-| `src/components/BookingModal.tsx` | QR-Hub и мобильное бронирование: автоопределение Mobile vs Desktop, ссылки на Langame (`799452760`, `799457743`, `799456444`) и App Store (`id6504088566`). |
-| `src/components/TournamentCard.tsx` | Блок «Ближайший турнир»: вынесенный заголовок секции, таймер обратного отсчёта, слоты команд, призовой фонд. |
+| `src/App.tsx` | Главный shell приложения: динамическое состояние всех сущностей (`livePrices`, `liveLinks`, `liveArenas`, `liveZones`, `liveTournament`, `livePromos`), синхронизация с `localStorage`, Lenis скролл. |
+| `src/types.ts` | Полные TypeScript интерфейсы: `SiteLinks`, `PriceRow`, `PriceCategory`, `ClubPrices`, `AllPricesData`, `ArenaLocation`, `ZoneType`, `Tournament`, `Promotion`. |
+| `src/data/arenaData.ts` | Константы по умолчанию (`DEFAULT_PRICES`, `DEFAULT_LINKS`, `ARENAS`, `ZONES`, `HARDWARE_LIST`, `UPCOMING_TOURNAMENT`, `ALL_TOURNAMENTS`, `PROMOTIONS`). |
+| `src/components/OwnerAdminModal.tsx` | Полноэкранный CMS-кабинет владельца с 7 вкладками управления данными и бэкапом. |
+| `src/components/OwnerSecurityGate.tsx` | Терминал безопасности владельца: мастер-ключ + PIN авторизация. |
+| `src/components/PriceSection.tsx` | Динамический компонент прайс-листа с чтением живых цен и быстрым фильтром времени. |
+| `src/components/ArenaEcosystem.tsx` | 3D-карточки 3 клубов в Омске с интерактивной галереей и детальным разбором. |
+| `src/components/ZonesShowcase.tsx` | Bento-галерея игровых зон и эксклюзивов (Premium Squad, Sim-Racing, Кино-Лаунж 150", Solo 600Hz). |
 | `src/components/HardwareVisualizer.tsx` | Интерактивные тест-бенчи: 3D-модель мыши 360°, клавиатурный тестер задержки свитчей, стерео-тест CS2 в наушниках. |
-| `src/components/Dynamic2GisMap.tsx` | Интерактивная 2ГИС/Leaflet карта с темными монохромными тайлами и плавным `flyTo`. |
+| `src/components/TournamentCard.tsx` | Блок «Ближайший турнир»: таймер обратного отсчёта, слоты команд, призовой фонд. |
+| `src/components/TournamentModal.tsx` | Модальное окно турниров и форма регистрации команд. |
+| `src/components/Dynamic2GisMap.tsx` | Интерактивная 2ГИС/Leaflet карта с темными монохромными тайлами Esri Dark Gray и плавным `flyTo`. |
 | `src/components/CustomCrosshairCursor.tsx` | Киберспортивный курсор-прицел CS2 с отдачей при клике и захватом `[ + ]`. |
-| `src/components/OwnerSecurityGate.tsx` | Терминал безопасности владельца: авторизация по ссылке `#admin?key=CYBERX-OMSK-ROOT-2026` + PIN `5500`. |
-| `src/components/OwnerAdminModal.tsx` | Панель CMS & Mini-CRM: метрики, редактирование турниров с Google Forms, промокоды. |
-| `src/data/arenaData.ts` | Все структурированные данные по 3 клубам, зонам, девайсам, турнирам и акциям. |
 
 ---
 
-## 🚀 Как запустить проект новому агенту / разработчику
+## 🚀 Как запустить проект
 ```bash
 npm install
 npm run dev
 ```
 
-Вся медиа-база (`hero-bg.mp4`, постеры, QR-коды клубов, аудио `welcome-cyberx.mp3`) бережно сохранена в папке `public/`.
+Вся медиа-база (`hero-bg.mp4`, постеры, 26+ локальных фото клубов, QR-коды, аудио `welcome-cyberx.mp3`) сохранена в папке `public/`.

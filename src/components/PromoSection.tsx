@@ -3,7 +3,8 @@ import { PROMOTIONS } from '../data/arenaData';
 import { Promotion } from '../types';
 import { Tag, Check, Copy, CheckCheck, ArrowUpRight } from 'lucide-react';
 import { sound } from '../utils/sound';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { AnimatedGroup } from './ui/AnimatedGroup';
 
 interface PromoSectionProps {
   onOpenBooking: () => void;
@@ -12,7 +13,6 @@ interface PromoSectionProps {
 
 export const PromoSection: React.FC<PromoSectionProps> = ({ onOpenBooking, promotionsList }) => {
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const promos = promotionsList || PROMOTIONS;
 
@@ -39,20 +39,16 @@ export const PromoSection: React.FC<PromoSectionProps> = ({ onOpenBooking, promo
   };
 
   return (
-    <section id="promotions" className="relative py-24 sm:py-32 bg-transparent overflow-hidden scroll-mt-24">
-      
-      {/* Background ambient lighting */}
-      <div className="pointer-events-none absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-red-600/[0.04] rounded-full blur-[140px]" />
-
+    <section id="promotions" className="py-8 sm:py-12 scroll-mt-24 relative z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Centered Section Header */}
         <motion.div 
-          initial={{ opacity: 0, y: 35 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center max-w-3xl mx-auto mb-14"
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className="text-center max-w-3xl mx-auto mb-8 sm:mb-10"
         >
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E32124]/10 border border-[#E32124]/30 text-[#E32124] text-xs font-mono font-bold tracking-wider uppercase mb-3.5">
             <Tag className="w-3.5 h-3.5" />
@@ -66,51 +62,20 @@ export const PromoSection: React.FC<PromoSectionProps> = ({ onOpenBooking, promo
           </p>
         </motion.div>
 
-        {/* Dynamic Card Hover Effect Grid with Staggered Revealing */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {promos.map((promo, idx) => {
+        {/* Motion-Primitives AnimatedGroup Staggered Card Grid */}
+        <AnimatedGroup preset="slide" staggerDelay={0.1} className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {promos.map((promo: Promotion) => {
             const isCopied = copiedCode === promo.code;
             return (
-              <motion.div
+              <div
                 key={promo.id}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-50px' }}
-                transition={{ 
-                  duration: 0.85, 
-                  delay: 0.15 * idx + 0.1, 
-                  ease: [0.16, 1, 0.3, 1] 
-                }}
-                className="relative group block p-2 h-full w-full"
-                onMouseEnter={() => {
-                  sound.playHover();
-                  setHoveredIndex(idx);
-                }}
-                onMouseLeave={() => setHoveredIndex(null)}
+                className="relative group block p-1 h-full w-full"
+                onMouseEnter={() => sound.playHover()}
               >
-                {/* Fluid Glowing Hover Background (Rounded) */}
-                <AnimatePresence>
-                  {hoveredIndex === idx && (
-                    <motion.span
-                      className="absolute inset-0 h-full w-full bg-[#E32124]/[0.12] border border-[#E32124]/40 block rounded-3xl"
-                      layoutId="promoHoverBackground"
-                      initial={{ opacity: 0 }}
-                      animate={{
-                        opacity: 1,
-                        transition: { duration: 0.15 },
-                      }}
-                      exit={{
-                        opacity: 0,
-                        transition: { duration: 0.15, delay: 0.2 },
-                      }}
-                    />
-                  )}
-                </AnimatePresence>
-
-                <div className={`h-full w-full p-6 sm:p-7 rounded-3xl flex flex-col justify-between relative z-20 transition-all duration-300 border backdrop-blur-xl ${
+                <div className={`h-full w-full p-6 sm:p-7 rounded-3xl flex flex-col justify-between relative z-20 transition-all duration-300 border ${
                   promo.colorScheme === 'red'
-                    ? 'bg-[#120a0c]/90 border-[#E32124]/40 shadow-xl shadow-red-950/40'
-                    : 'bg-[#08080e]/90 border-white/[0.08] group-hover:border-[#E32124]/40'
+                    ? 'bg-[#120a0c] border-[#E32124]/50 shadow-xl shadow-red-950/40 group-hover:border-[#E32124] group-hover:shadow-[0_0_30px_rgba(227,33,36,0.25)]'
+                    : 'bg-[#08080e] border-white/[0.08] group-hover:border-[#E32124]/50 group-hover:bg-[#0c0c16] group-hover:shadow-[0_0_25px_rgba(227,33,36,0.15)]'
                 }`}>
                   <div>
                     {/* Badge & Discount (Rounded) */}
@@ -137,7 +102,7 @@ export const PromoSection: React.FC<PromoSectionProps> = ({ onOpenBooking, promo
 
                     {/* Perks list */}
                     <div className="space-y-2 mb-6 pt-4 border-t border-white/[0.06]">
-                      {promo.perks.map((perk, i) => (
+                      {promo.perks.map((perk: string, i: number) => (
                         <div key={i} className="flex items-start gap-2 text-xs text-zinc-300 font-mono">
                           <Check className="w-3.5 h-3.5 text-[#E32124] shrink-0 mt-0.5" />
                           <span>{perk}</span>
@@ -158,7 +123,7 @@ export const PromoSection: React.FC<PromoSectionProps> = ({ onOpenBooking, promo
                           e.stopPropagation();
                           copyCode(promo.code);
                         }}
-                        className="px-3 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] text-xs text-zinc-300 hover:text-white transition-all flex items-center gap-1 shrink-0"
+                        className="px-3 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] text-xs text-zinc-300 hover:text-white transition-all flex items-center gap-1 shrink-0 cursor-pointer"
                       >
                         {isCopied ? (
                           <>
@@ -180,17 +145,17 @@ export const PromoSection: React.FC<PromoSectionProps> = ({ onOpenBooking, promo
                         onOpenBooking();
                       }}
                       onMouseEnter={() => sound.playHover()}
-                      className="w-full py-2.5 rounded-2xl font-mono font-bold text-xs uppercase tracking-[0.15em] text-white bg-white/[0.06] hover:bg-[#E32124] border border-white/[0.08] hover:border-[#E32124] transition-all flex items-center justify-center gap-1.5 shadow-md active:scale-95"
+                      className="w-full py-2.5 rounded-2xl font-mono font-bold text-xs uppercase tracking-[0.15em] text-white bg-white/[0.06] hover:bg-[#E32124] border border-white/[0.08] hover:border-[#E32124] transition-all flex items-center justify-center gap-1.5 shadow-md active:scale-95 cursor-pointer"
                     >
                       <span>Активировать пакет</span>
                       <ArrowUpRight className="w-3.5 h-3.5" />
                     </button>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             );
           })}
-        </div>
+        </AnimatedGroup>
 
       </div>
     </section>

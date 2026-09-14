@@ -3,7 +3,7 @@ import {
   X, 
   Smartphone, 
   ExternalLink, 
-  Sparkles, 
+  Zap, 
   Download, 
   ShieldCheck, 
   MapPin,
@@ -122,15 +122,18 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
   return (
     <div 
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fadeIn select-none"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fadeIn select-none overscroll-contain"
+      data-lenis-prevent="true"
       onClick={onClose}
     >
       <div 
-        className="relative w-full max-w-xl max-h-[92vh] overflow-y-auto bg-[#0A0A10] border border-white/10 rounded-3xl shadow-[0_20px_70px_rgba(0,0,0,0.95)] p-6 sm:p-8"
+        data-lenis-prevent="true"
+        className="relative w-full max-w-xl max-h-[92vh] overflow-y-auto overscroll-contain bg-gradient-to-b from-[#131018] via-[#0D0B12] to-[#07060A] border border-white/10 rounded-3xl shadow-[0_20px_70px_rgba(0,0,0,0.95)] p-6 sm:p-8"
         onClick={(e) => e.stopPropagation()}
+        onWheel={(e) => e.stopPropagation()}
       >
-        {/* Ambient Top Glow */}
-        <div className="pointer-events-none absolute -top-12 left-1/2 -translate-x-1/2 w-64 h-32 bg-[#E32124]/20 rounded-full blur-3xl" />
+        {/* Top Accent Crimson Line */}
+        <div className="absolute top-0 left-8 right-8 h-[2px] bg-gradient-to-r from-transparent via-[#E32124] to-transparent shadow-[0_0_10px_#E32124] pointer-events-none" />
 
         {/* Close Button */}
         <button
@@ -146,11 +149,11 @@ export const BookingModal: React.FC<BookingModalProps> = ({
         {/* Header Title */}
         <div className="mb-6 font-mono text-center sm:text-left">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E32124]/15 border border-[#E32124]/30 text-[#E32124] text-[10px] font-bold uppercase tracking-wider mb-2">
-            <Sparkles className="w-3.5 h-3.5 animate-pulse" />
+            <Zap className="w-3.5 h-3.5" />
             <span>ОНЛАЙН БРОНИРОВАНИЕ В 1 КЛИК // 24/7</span>
           </div>
           <h3 className="font-display font-black text-2xl sm:text-3xl uppercase tracking-tight text-white">
-            МОБИЛЬНОЕ <span className="text-[#E32124] drop-shadow-[0_0_15px_rgba(227,33,36,0.6)]">ПРИЛОЖЕНИЕ</span>
+            МОБИЛЬНОЕ <span className="text-[#E32124]">ПРИЛОЖЕНИЕ</span>
           </h3>
           <p className="text-xs text-zinc-400 mt-1">
             Выбирайте нужный клуб CyberX в Омске и бронируйте желаемый ПК или зал в официальном приложении CyberX Community.
@@ -189,7 +192,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   onMouseEnter={() => sound.playHover()}
                   className={`p-3 rounded-2xl text-left border transition-all cursor-pointer flex flex-col justify-between ${
                     isSelected
-                      ? 'bg-[#181216] border-[#E32124] shadow-[0_0_20px_rgba(227,33,36,0.4)]'
+                      ? 'bg-[#181116] border-[#E32124] shadow-[0_0_20px_rgba(227,33,36,0.3)]'
                       : 'bg-white/[0.02] border-white/10 hover:border-white/30 text-zinc-400 hover:text-white'
                   }`}
                 >
@@ -208,7 +211,8 @@ export const BookingModal: React.FC<BookingModalProps> = ({
         {/* 2. Main Action Card (Mobile Direct vs Desktop QR) */}
         {isMobileDevice ? (
           /* MOBILE VIEW: Direct 1-Tap Action Buttons */
-          <div className="p-5 sm:p-6 rounded-3xl bg-gradient-to-b from-[#161218] to-[#0D0B12] border border-[#E32124]/40 shadow-xl space-y-4 font-mono text-center">
+          <div className="relative p-5 sm:p-6 rounded-3xl bg-gradient-to-b from-[#151018] to-[#0A0910] border border-[#E32124]/30 shadow-xl space-y-4 font-mono text-center overflow-hidden">
+            <div className="absolute top-0 left-6 right-6 h-[1px] bg-gradient-to-r from-transparent via-[#E32124]/40 to-transparent pointer-events-none" />
             
             <div className="w-14 h-14 rounded-2xl bg-[#E32124]/20 border border-[#E32124]/50 flex items-center justify-center mx-auto text-[#E32124] shadow-[0_0_20px_rgba(227,33,36,0.4)]">
               <Smartphone className="w-7 h-7" />
@@ -249,10 +253,11 @@ export const BookingModal: React.FC<BookingModalProps> = ({
           </div>
         ) : (
           /* DESKTOP VIEW: High-Resolution Scannable QR Code */
-          <div className="p-6 rounded-3xl bg-gradient-to-b from-[#141016] to-[#0A0A10] border border-[#E32124]/40 shadow-2xl flex flex-col sm:flex-row items-center gap-6 font-mono">
+          <div className="relative p-6 rounded-3xl bg-gradient-to-b from-[#151018] to-[#0A0910] border border-[#E32124]/30 shadow-2xl flex flex-col sm:flex-row items-center gap-6 font-mono overflow-hidden">
+            <div className="absolute top-0 left-6 right-6 h-[1px] bg-gradient-to-r from-transparent via-[#E32124]/40 to-transparent pointer-events-none" />
             
             {/* Left: QR Code Box */}
-            <div className="relative shrink-0 p-3 bg-white rounded-2xl shadow-[0_0_30px_rgba(227,33,36,0.3)] border-2 border-[#E32124]">
+            <div className="relative shrink-0 p-3 bg-white rounded-2xl shadow-[0_0_30px_rgba(227,33,36,0.25)] border-2 border-[#E32124]">
               <img
                 src={showAppStoreQR ? '/qr/qr-appstore.png' : currentClub.qrImage}
                 alt={`QR code for ${showAppStoreQR ? 'App Store' : currentClub.title}`}

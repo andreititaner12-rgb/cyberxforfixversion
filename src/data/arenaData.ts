@@ -1,4 +1,4 @@
-import { ArenaLocation, ZoneType, HardwareItem, Tournament, Promotion } from '../types';
+import { ArenaLocation, ZoneType, HardwareItem, Tournament, Promotion, SiteLinks, AllPricesData } from '../types';
 
 export const ARENAS: ArenaLocation[] = [
   {
@@ -12,7 +12,7 @@ export const ARENAS: ArenaLocation[] = [
     vipRoomsCount: 0,
     ps5RoomsCount: 3,
     phone: '+7 (951) 400-77-77',
-    telegram: '@cyberx_omsk_mira',
+    telegram: '@cyberxcommunityomsklenina',
     workingHours: '24/7 Круглосуточно',
     rating: 5.0,
     reviewsCount: 1040,
@@ -35,7 +35,7 @@ export const ARENAS: ArenaLocation[] = [
       'Кальян, бар, гигабитный интернет >1 Гбит/с'
     ],
     status: 'ONLINE',
-    coordinates: { x: 55.028412, y: 73.284310 },
+    coordinates: { x: 55.028508, y: 73.287744 },
   },
   {
     id: 'cyberx-arena',
@@ -68,7 +68,7 @@ export const ARENAS: ArenaLocation[] = [
     features: [
       '86 мощных игровых ПК (RTX 5070 Ti / i5-14600KF / BenQ 600Hz & 400Hz)',
       '2 эксклюзивных Premium зала (5 ПК + PS5 + Большой стол для команды)',
-      '2 профессиональных автосимулятора Sim-Racing с рулями Direct Drive',
+      '2 профессиональных автосимулятора Sim-Racing с рулевой базой Moza и педалями Moza Load Cell',
       'Большой кино-лаунж с проектором 150" для трансляций и турниров',
       '4 приватных PS5 зала с диванами, кальян и бар'
     ],
@@ -86,7 +86,7 @@ export const ARENAS: ArenaLocation[] = [
     vipRoomsCount: 0,
     ps5RoomsCount: 3,
     phone: '+7 (950) 950-33-33',
-    telegram: '@cyberx_omsk_serova',
+    telegram: '@cyberxcommunityomsklenina',
     workingHours: '24/7 Круглосуточно',
     rating: 5.0,
     reviewsCount: 890,
@@ -109,7 +109,7 @@ export const ARENAS: ArenaLocation[] = [
       'Кальян, напитки, удобная парковка у входа'
     ],
     status: 'ONLINE',
-    coordinates: { x: 54.945120, y: 73.385410 },
+    coordinates: { x: 54.940795, y: 73.382982 },
   },
 ];
 
@@ -152,21 +152,21 @@ export const ZONES: ZoneType[] = [
     id: 'sim-racing',
     name: 'SIM-RACING // 2 АВТОСИМУЛЯТОРА',
     category: 'ЭКСКЛЮЗИВ В CYBERX ARENA',
-    tagline: '2 кокпита с рулями Direct Drive и педалями Load Cell',
-    description: 'Эксклюзив CyberX Arena на Ленина, 19 с двумя профессиональными гоночными кокпитами. Прямой привод руля (Direct Drive Force Feedback), педали Load Cell с тензодатчиками, изогнутые экраны. Идеально для парных дуэлей в Assetto Corsa, Forza Horizon 5, F1 24 и City Car Driving.',
+    tagline: '2 кокпита на рулевой базе Moza и педальном узле Moza Load Cell',
+    description: 'Эксклюзив CyberX Arena на Ленина, 19 с двумя профессиональными гоночными кокпитами на рулевой базе Moza Direct Drive и педальном узле Moza Load Cell. Доступные соревновательные дисциплины: FORZA HORIZON 6, ASSETTO CORSA, ASSETTO CORSA COMPETIZIONE, DiRT, BEAMNG.DRIVE, CITY CAR DRIVING.',
     capacity: '1–2 пилота (CyberX Arena // Ленина, 19)',
     hardwareBrief: [
-      '2x Профессиональные базы руля Direct Drive (Force Feedback)',
-      'Спортивные анатомические ковши с регулировкой посадки',
-      'Педальные узлы Load Cell (реалистичное усилие торможения)',
+      '2x Профессиональные базы Moza Direct Drive Force Feedback',
+      'Педальные узлы Moza Load Cell (реалистичное усилие торможения)',
+      'Спортивные анатомические ковши с точной регулировкой посадки',
       'Изогнутые UltraWide 165Hz дисплеи',
-      'Парные дуэли в реальном времени'
+      'Секвентальный шифтер и подрулевые лепестки'
     ],
     features: [
       'Доступно только в CyberX Arena (2 симулятора)',
-      'Парные заезды друг против друга',
-      'Все популярные автосимы и дрифт-трассы',
-      'Секвентальный шифтер и лепестки переключения'
+      'Парные дуэли в реальном времени',
+      'Дисциплины: Forza Horizon 6, Assetto Corsa, ACC, DiRT, BeamNG, City Car Driving',
+      'Реалистичная физика управления и обратная связь FFB'
     ],
     pricePerHour: 400,
     priceNight: 2000,
@@ -194,7 +194,7 @@ export const ZONES: ZoneType[] = [
     ],
     pricePerHour: 1000,
     priceNight: 5000,
-    image: 'https://langame.ru/storage/clubs/2023/Dec/04/1701698369656ddb4188c28.webp',
+    image: '/images/arena/15-bar-lounge.jpg',
     badge: '150" Экран на Ленина',
   },
   {
@@ -219,7 +219,7 @@ export const ZONES: ZoneType[] = [
     ],
     pricePerHour: 220,
     priceNight: 1100,
-    image: 'https://langame.ru/storage/clubs/2023/Dec/04/1701698424656ddb78af7b3.webp',
+    image: '/images/evropa/05-mural-solo.jpg',
     badge: 'Ryzen 7800X3D + 600Hz',
   },
   {
@@ -277,6 +277,467 @@ export const ZONES: ZoneType[] = [
   }
 ];
 
+export const DEFAULT_LINKS: SiteLinks = {
+  telegramHandle: '@cyberxcommunityomsklenina',
+  telegramUrl: 'https://t.me/cyberxcommunityomsklenina',
+  vkUrl: 'https://vk.com/cyberx_omsk_lenina',
+  googleFormUrl: 'https://forms.google.com',
+  appStoreUrl: 'https://apps.apple.com/app/cyberx-community/id1528654867',
+  phoneLenina: '+7 (908) 110-97-77',
+  phoneEvropa: '+7 (951) 400-77-77',
+  phoneOktyabr: '+7 (950) 950-33-33',
+  addressLenina: 'ул. Ленина, 19',
+  addressEvropa: 'просп. Мира, 42, корп. 1',
+  addressOktyabr: 'ул. Серова, 19А',
+};
+
+export const DEFAULT_PRICES: AllPricesData = {
+  'cyberx-arena': {
+    pc: [
+      {
+        id: 'standard',
+        title: 'STANDARD',
+        badge: 'БАЗОВЫЙ',
+        iconType: 'Monitor',
+        specs: 'RTX 3060 Ti • 240Hz • Dark Project KD87A',
+        rows: [
+          { period: 'УТРО (за 1 час)', subtext: '08:00 – 14:00', weekday: '110 ₽', weekend: '130 ₽', filterKey: 'morning' },
+          { period: '1 ЧАС', subtext: 'Обычный тариф', weekday: '150 ₽', weekend: '170 ₽', filterKey: '1h' },
+          { period: '3 ЧАСА', subtext: '08:00 – 19:00', weekday: '380 ₽', weekend: '430 ₽', filterKey: '3h' },
+          { period: '5 ЧАСОВ', subtext: 'Дневной сет', weekday: '600 ₽', weekend: '700 ₽', filterKey: '5h' },
+          { period: 'НОЧЬ', subtext: '22:00 – 08:00', weekday: '600 ₽', weekend: '800 ₽', filterKey: 'night' },
+        ]
+      },
+      {
+        id: 'standard-plus',
+        title: 'STANDARD+',
+        badge: 'ПОПУЛЯРНЫЙ',
+        highlight: true,
+        iconType: 'Zap',
+        specs: 'RTX 4060 Ti • 280Hz • HyperX Cloud II',
+        rows: [
+          { period: 'УТРО (за 1 час)', subtext: '08:00 – 14:00', weekday: '130 ₽', weekend: '150 ₽', filterKey: 'morning' },
+          { period: '1 ЧАС', subtext: 'Обычный тариф', weekday: '170 ₽', weekend: '190 ₽', filterKey: '1h' },
+          { period: '3 ЧАСА', subtext: '08:00 – 19:00', weekday: '430 ₽', weekend: '490 ₽', filterKey: '3h' },
+          { period: '5 ЧАСОВ', subtext: 'Дневной сет', weekday: '700 ₽', weekend: '800 ₽', filterKey: '5h' },
+          { period: 'НОЧЬ', subtext: '22:00 – 08:00', weekday: '800 ₽', weekend: '900 ₽', filterKey: 'night' },
+        ]
+      },
+      {
+        id: 'vip',
+        title: 'VIP',
+        badge: 'PRO КИБЕРСПОРТ',
+        iconType: 'Crown',
+        specs: 'RTX 4070 SUPER • 360Hz • Logitech Superlight',
+        rows: [
+          { period: 'УТРО (за 1 час)', subtext: '08:00 – 14:00', weekday: '160 ₽', weekend: '190 ₽', filterKey: 'morning' },
+          { period: '1 ЧАС', subtext: 'Обычный тариф', weekday: '210 ₽', weekend: '240 ₽', filterKey: '1h' },
+          { period: '3 ЧАСА', subtext: '08:00 – 19:00', weekday: '540 ₽', weekend: '630 ₽', filterKey: '3h' },
+          { period: '5 ЧАСОВ', subtext: 'Дневной сет', weekday: '850 ₽', weekend: '980 ₽', filterKey: '5h' },
+          { period: 'НОЧЬ', subtext: '22:00 – 08:00', weekday: '1 000 ₽', weekend: '1 100 ₽', filterKey: 'night' },
+        ]
+      },
+      {
+        id: 'super-vip',
+        title: 'SUPER VIP',
+        badge: 'ФЛАГМАН',
+        iconType: 'Flame',
+        specs: 'Ryzen 7800X3D • RTX 4080 • BenQ 400Hz',
+        rows: [
+          { period: 'УТРО (за 1 час)', subtext: '08:00 – 14:00', weekday: '200 ₽', weekend: '220 ₽', filterKey: 'morning' },
+          { period: '1 ЧАС', subtext: 'Обычный тариф', weekday: '270 ₽', weekend: '300 ₽', filterKey: '1h' },
+          { period: '3 ЧАСА', subtext: '08:00 – 19:00', weekday: '650 ₽', weekend: '750 ₽', filterKey: '3h' },
+          { period: '5 ЧАСОВ', subtext: 'Дневной сет', weekday: '1 000 ₽', weekend: '1 100 ₽', filterKey: '5h' },
+          { period: 'НОЧЬ', subtext: '22:00 – 08:00', weekday: '1 300 ₽', weekend: '1 400 ₽', filterKey: 'night' },
+        ]
+      },
+      {
+        id: 'solo',
+        title: 'SOLO ROOM',
+        badge: 'ПРИВАТНАЯ КОМНАТА',
+        iconType: 'ShieldCheck',
+        specs: '1 Игрок • Закрытая звукоизоляция • Full Top Gear',
+        rows: [
+          { period: 'УТРО (за 1 час)', subtext: '08:00 – 14:00', weekday: '250 ₽', weekend: '270 ₽', filterKey: 'morning' },
+          { period: '1 ЧАС', subtext: 'Обычный тариф', weekday: '300 ₽', weekend: '330 ₽', filterKey: '1h' },
+          { period: '3 ЧАСА', subtext: '08:00 – 19:00', weekday: '800 ₽', weekend: '900 ₽', filterKey: '3h' },
+          { period: '5 ЧАСОВ', subtext: 'Дневной сет', weekday: '1 200 ₽', weekend: '1 400 ₽', filterKey: '5h' },
+          { period: 'НОЧЬ', subtext: '22:00 – 08:00', weekday: '1 500 ₽', weekend: '2 000 ₽', filterKey: 'night' },
+        ]
+      }
+    ],
+    lounge: [
+      {
+        id: 'sim-racing',
+        title: 'АВТОСИМУЛЯТОРЫ',
+        badge: 'SIM-RACING 2 КОКПИТА',
+        highlight: true,
+        iconType: 'Gauge',
+        specs: 'Moza R9 Direct Drive • Квартет педалей • Спортивный ковш',
+        rows: [
+          { period: 'УТРО (за 1 час)', subtext: '08:00 – 14:00', weekday: '400 ₽', weekend: '500 ₽', filterKey: 'morning' },
+          { period: '1 ЧАС', subtext: 'Обычный тариф', weekday: '600 ₽', weekend: '700 ₽', filterKey: '1h' },
+          { period: '3 ЧАСА', subtext: '08:00 – 19:00', weekday: '1 000 ₽', weekend: '1 100 ₽', filterKey: '3h' },
+          { period: '5 ЧАСОВ', subtext: 'Дневной сет', weekday: '1 350 ₽', weekend: '1 500 ₽', filterKey: '5h' },
+          { period: 'НОЧЬ СЕТ', subtext: '22:00 – 08:00', weekday: '2 000 ₽', weekend: '2 500 ₽', filterKey: 'night' },
+        ]
+      },
+      {
+        id: 'tv-lounge',
+        title: 'АРЕНДА TV (PS5)',
+        badge: '4 ЗАЛА PS5 НА ЛЕНИНА',
+        iconType: 'Tv',
+        specs: '4K OLED 65" • DualSense • Топ библиотека игр',
+        rows: [
+          { period: 'УТРО (за 1 час)', subtext: '08:00 – 14:00', weekday: '200 ₽', weekend: '300 ₽', filterKey: 'morning' },
+          { period: '1 ЧАС', subtext: 'Обычный тариф', weekday: '350 ₽', weekend: '350 ₽', filterKey: '1h' },
+          { period: '3 ЧАСА', subtext: '08:00 – 19:00', weekday: '900 ₽', weekend: '900 ₽', filterKey: '3h' },
+          { period: '5 ЧАСОВ', subtext: 'Дневной сет', weekday: '1 200 ₽', weekend: '1 200 ₽', filterKey: '5h' },
+          { period: 'НОЧЬ', subtext: '22:00 – 08:00', weekday: '1 000 ₽', weekend: '1 000 ₽', filterKey: 'night' },
+        ]
+      },
+      {
+        id: 'cinema-lounge',
+        title: 'КИНО-ЛАУНЖ 150"',
+        badge: 'СЦЕНА & ПРОЕКТОР',
+        iconType: 'Users',
+        specs: 'Экран 150" • 5.1 Surround • До 15 человек',
+        rows: [
+          { period: 'УТРО (за 1 час)', subtext: '08:00 – 14:00', weekday: '800 ₽', weekend: '1 000 ₽', filterKey: 'morning' },
+          { period: '1 ЧАС', subtext: 'Обычный тариф', weekday: '1 000 ₽', weekend: '1 200 ₽', filterKey: '1h' },
+          { period: '3 ЧАСА', subtext: '08:00 – 19:00', weekday: '2 500 ₽', weekend: '3 000 ₽', filterKey: '3h' },
+          { period: '5 ЧАСОВ', subtext: 'Дневной сет', weekday: '4 000 ₽', weekend: '4 800 ₽', filterKey: '5h' },
+          { period: 'НОЧЬ СЕТ', subtext: '22:00 – 08:00', weekday: '5 000 ₽', weekend: '6 000 ₽', filterKey: 'night' },
+        ]
+      },
+      {
+        id: 'premium-lounge',
+        title: 'PREMIUM LOUNGE',
+        badge: 'ДО 14 ЧЕЛОВЕК',
+        iconType: 'Gamepad2',
+        specs: 'Приватная зона отдыха для больших компаний',
+        rows: [
+          { period: 'УТРО (за 1 час)', subtext: '08:00 – 14:00', weekday: '1 500 ₽', weekend: '1 500 ₽', filterKey: 'morning' },
+          { period: '1 ЧАС', subtext: 'Обычный тариф', weekday: '2 000 ₽', weekend: '2 000 ₽', filterKey: '1h' },
+          { period: '3 ЧАСА', subtext: '08:00 – 19:00', weekday: '5 000 ₽', weekend: '5 000 ₽', filterKey: '3h' },
+          { period: '5 ЧАСОВ', subtext: 'Дневной сет', weekday: '7 000 ₽', weekend: '7 000 ₽', filterKey: '5h' },
+          { period: 'НОЧЬ СЕТ', subtext: '22:00 – 08:00', weekday: '8 000 ₽', weekend: '8 000 ₽', filterKey: 'night' },
+        ]
+      },
+      {
+        id: 'tv-pro-services',
+        title: 'TV PRO & УСЛУГИ',
+        badge: 'ДОП. ОПЦИИ',
+        iconType: 'Coffee',
+        specs: 'Большой экран, геймпады и паровые коктейли',
+        rows: [
+          { period: 'TV PRO (1 ЧАС)', subtext: 'Увеличенный экран', weekday: '450 ₽', weekend: '450 ₽', filterKey: '1h' },
+          { period: 'TV PRO (3 ЧАСА)', subtext: '08:00 – 19:00', weekday: '1 000 ₽', weekend: '1 000 ₽', filterKey: '3h' },
+          { period: 'Доп. игрок TV', subtext: 'За 1 час', weekday: '200 ₽', weekend: '200 ₽', filterKey: '1h' },
+          { period: 'Доплата за геймпад', subtext: '1–2 DualSense', weekday: '200 ₽', weekend: '350 ₽', filterKey: '1h' },
+          { period: 'Паровой коктейль', subtext: 'Lounge Hookah', weekday: '1 200 ₽', weekend: '1 200 ₽', filterKey: 'night' },
+        ]
+      }
+    ]
+  },
+  'cyberx-evropa': {
+    pc: [
+      {
+        id: 'standard-evropa',
+        title: 'STANDARD',
+        badge: 'БАЗОВЫЙ',
+        iconType: 'Monitor',
+        specs: 'RTX 3060 / 4060 • 240Hz • Механика Dark Project',
+        rows: [
+          { period: 'УТРО (за 1 час)', subtext: '08:00 – 14:00', weekday: '110 ₽', weekend: '130 ₽', filterKey: 'morning' },
+          { period: '1 ЧАС', subtext: 'Обычный тариф', weekday: '150 ₽', weekend: '170 ₽', filterKey: '1h' },
+          { period: '3 ЧАСА', subtext: '08:00 – 19:00', weekday: '380 ₽', weekend: '430 ₽', filterKey: '3h' },
+          { period: '5 ЧАСОВ', subtext: 'Дневной сет', weekday: '600 ₽', weekend: '700 ₽', filterKey: '5h' },
+          { period: 'НОЧЬ', subtext: '22:00 – 08:00', weekday: '600 ₽', weekend: '800 ₽', filterKey: 'night' },
+        ]
+      },
+      {
+        id: 'bootcamp-evropa',
+        title: 'BOOTCAMP (5v5)',
+        badge: 'КОМАНДНЫЙ',
+        highlight: true,
+        iconType: 'Users',
+        specs: 'Изолированная комната 5 ПК • 280Hz • HyperX',
+        rows: [
+          { period: 'УТРО (за 1 ПК)', subtext: '08:00 – 14:00', weekday: '140 ₽', weekend: '160 ₽', filterKey: 'morning' },
+          { period: '1 ЧАС (за 1 ПК)', subtext: 'Обычный тариф', weekday: '180 ₽', weekend: '210 ₽', filterKey: '1h' },
+          { period: '3 ЧАСА (за 1 ПК)', subtext: '08:00 – 19:00', weekday: '460 ₽', weekend: '530 ₽', filterKey: '3h' },
+          { period: '5 ЧАСОВ (за 1 ПК)', subtext: 'Дневной сет', weekday: '750 ₽', weekend: '850 ₽', filterKey: '5h' },
+          { period: 'НОЧЬ (за 1 ПК)', subtext: '22:00 – 08:00', weekday: '900 ₽', weekend: '1 050 ₽', filterKey: 'night' },
+        ]
+      },
+      {
+        id: 'vip-evropa',
+        title: 'VIP ROOM',
+        badge: 'PRO КИБЕРСПОРТ',
+        iconType: 'Crown',
+        specs: 'RTX 4070 Ti • 360Hz • ZOWIE • Dark Project',
+        rows: [
+          { period: 'УТРО (за 1 час)', subtext: '08:00 – 14:00', weekday: '170 ₽', weekend: '200 ₽', filterKey: 'morning' },
+          { period: '1 ЧАС', subtext: 'Обычный тариф', weekday: '220 ₽', weekend: '250 ₽', filterKey: '1h' },
+          { period: '3 ЧАСА', subtext: '08:00 – 19:00', weekday: '580 ₽', weekend: '660 ₽', filterKey: '3h' },
+          { period: '5 ЧАСОВ', subtext: 'Дневной сет', weekday: '900 ₽', weekend: '1 050 ₽', filterKey: '5h' },
+          { period: 'НОЧЬ', subtext: '22:00 – 08:00', weekday: '1 100 ₽', weekend: '1 250 ₽', filterKey: 'night' },
+        ]
+      },
+      {
+        id: 'solo-evropa',
+        title: 'SOLO ROOM 600HZ',
+        badge: 'ТОП ФЛАГМАН',
+        iconType: 'Flame',
+        specs: 'Ryzen 7 7800X3D • BenQ 600Hz • Звукоизоляция',
+        rows: [
+          { period: 'УТРО (за 1 час)', subtext: '08:00 – 14:00', weekday: '220 ₽', weekend: '240 ₽', filterKey: 'morning' },
+          { period: '1 ЧАС', subtext: 'Обычный тариф', weekday: '280 ₽', weekend: '310 ₽', filterKey: '1h' },
+          { period: '3 ЧАСА', subtext: '08:00 – 19:00', weekday: '720 ₽', weekend: '800 ₽', filterKey: '3h' },
+          { period: '5 ЧАСОВ', subtext: 'Дневной сет', weekday: '1 100 ₽', weekend: '1 250 ₽', filterKey: '5h' },
+          { period: 'НОЧЬ', subtext: '22:00 – 08:00', weekday: '1 400 ₽', weekend: '1 600 ₽', filterKey: 'night' },
+        ]
+      },
+      {
+        id: 'duo-evropa',
+        title: 'DUO ROOM',
+        badge: 'ПАРНЫЙ ЗАЛ',
+        iconType: 'ShieldCheck',
+        specs: '2 Игрока • RTX 4070 • 280Hz • Приватный комфорт',
+        rows: [
+          { period: 'УТРО (за 1 ПК)', subtext: '08:00 – 14:00', weekday: '150 ₽', weekend: '170 ₽', filterKey: 'morning' },
+          { period: '1 ЧАС (за 1 ПК)', subtext: 'Обычный тариф', weekday: '190 ₽', weekend: '220 ₽', filterKey: '1h' },
+          { period: '3 ЧАСА (за 1 ПК)', subtext: '08:00 – 19:00', weekday: '500 ₽', weekend: '570 ₽', filterKey: '3h' },
+          { period: '5 ЧАСОВ (за 1 ПК)', subtext: 'Дневной сет', weekday: '800 ₽', weekend: '900 ₽', filterKey: '5h' },
+          { period: 'НОЧЬ (за 1 ПК)', subtext: '22:00 – 08:00', weekday: '1 000 ₽', weekend: '1 150 ₽', filterKey: 'night' },
+        ]
+      }
+    ],
+    lounge: [
+      {
+        id: 'sim-evropa',
+        title: 'АВТОСИМУЛЯТОРЫ',
+        badge: 'CYBERX ARENA (ЛЕНИНА, 19)',
+        highlight: true,
+        iconType: 'Gauge',
+        specs: 'Moza R9 Direct Drive • Квартет педалей • Спортивный ковш',
+        rows: [
+          { period: 'УТРО (за 1 час)', subtext: '08:00 – 14:00', weekday: '400 ₽', weekend: '500 ₽', filterKey: 'morning' },
+          { period: '1 ЧАС', subtext: 'Обычный тариф', weekday: '600 ₽', weekend: '700 ₽', filterKey: '1h' },
+          { period: '3 ЧАСА', subtext: '08:00 – 19:00', weekday: '1 000 ₽', weekend: '1 100 ₽', filterKey: '3h' },
+          { period: '5 ЧАСОВ', subtext: 'Дневной сет', weekday: '1 350 ₽', weekend: '1 500 ₽', filterKey: '5h' },
+          { period: 'НОЧЬ СЕТ', subtext: '22:00 – 08:00', weekday: '2 000 ₽', weekend: '2 500 ₽', filterKey: 'night' },
+        ]
+      },
+      {
+        id: 'tv-evropa',
+        title: 'АРЕНДА TV (PS5)',
+        badge: '3 ЗАЛА PS5 В ЕВРОПЕ',
+        iconType: 'Tv',
+        specs: '4K OLED 65" • DualSense • Топ библиотека игр',
+        rows: [
+          { period: 'УТРО (за 1 час)', subtext: '08:00 – 14:00', weekday: '200 ₽', weekend: '300 ₽', filterKey: 'morning' },
+          { period: '1 ЧАС', subtext: 'Обычный тариф', weekday: '350 ₽', weekend: '350 ₽', filterKey: '1h' },
+          { period: '3 ЧАСА', subtext: '08:00 – 19:00', weekday: '900 ₽', weekend: '900 ₽', filterKey: '3h' },
+          { period: '5 ЧАСОВ', subtext: 'Дневной сет', weekday: '1 200 ₽', weekend: '1 200 ₽', filterKey: '5h' },
+          { period: 'НОЧЬ', subtext: '22:00 – 08:00', weekday: '1 000 ₽', weekend: '1 000 ₽', filterKey: 'night' },
+        ]
+      },
+      {
+        id: 'tv-pro-evropa',
+        title: 'TV PRO (85" ЭКРАН)',
+        badge: 'БОЛЬШОЙ 4K ЭКРАН',
+        iconType: 'Gamepad2',
+        specs: '85" 4K 120Hz • Увеличенная мягкая лаунж-зона',
+        rows: [
+          { period: 'УТРО (за 1 час)', subtext: '08:00 – 14:00', weekday: '350 ₽', weekend: '400 ₽', filterKey: 'morning' },
+          { period: '1 ЧАС', subtext: 'Обычный тариф', weekday: '450 ₽', weekend: '450 ₽', filterKey: '1h' },
+          { period: '3 ЧАСА', subtext: '08:00 – 19:00', weekday: '1 000 ₽', weekend: '1 000 ₽', filterKey: '3h' },
+          { period: '5 ЧАСОВ', subtext: 'Дневной сет', weekday: '1 500 ₽', weekend: '1 500 ₽', filterKey: '5h' },
+          { period: 'НОЧЬ СЕТ', subtext: '22:00 – 08:00', weekday: '1 400 ₽', weekend: '1 400 ₽', filterKey: 'night' },
+        ]
+      },
+      {
+        id: 'lounge-squad-evropa',
+        title: 'PREMIUM LOUNGE',
+        badge: 'ДО 10 ЧЕЛОВЕК',
+        iconType: 'Users',
+        specs: 'Приватная изолированная зона для компании',
+        rows: [
+          { period: 'УТРО (за 1 час)', subtext: '08:00 – 14:00', weekday: '1 200 ₽', weekend: '1 200 ₽', filterKey: 'morning' },
+          { period: '1 ЧАС', subtext: 'Обычный тариф', weekday: '1 600 ₽', weekend: '1 600 ₽', filterKey: '1h' },
+          { period: '3 ЧАСА', subtext: '08:00 – 19:00', weekday: '4 000 ₽', weekend: '4 000 ₽', filterKey: '3h' },
+          { period: '5 ЧАСОВ', subtext: 'Дневной сет', weekday: '5 500 ₽', weekend: '5 500 ₽', filterKey: '5h' },
+          { period: 'НОЧЬ СЕТ', subtext: '22:00 – 08:00', weekday: '6 500 ₽', weekend: '6 500 ₽', filterKey: 'night' },
+        ]
+      },
+      {
+        id: 'hookah-evropa',
+        title: 'ПАРОВЫЕ КОКТЕЙЛИ & БАР',
+        badge: 'ДОП. ОПЦИИ',
+        iconType: 'Coffee',
+        specs: 'Lounge Hookah, напитки, снеки и доп. геймпады',
+        rows: [
+          { period: 'Доп. игрок TV', subtext: 'За 1 час', weekday: '200 ₽', weekend: '200 ₽', filterKey: '1h' },
+          { period: 'Доплата за геймпад', subtext: '1–2 DualSense', weekday: '200 ₽', weekend: '350 ₽', filterKey: '1h' },
+          { period: 'Паровой коктейль', subtext: 'Lounge Hookah', weekday: '1 200 ₽', weekend: '1 200 ₽', filterKey: 'night' },
+          { period: 'Перезабивка чаши', subtext: 'Премиум табак', weekday: '600 ₽', weekend: '600 ₽', filterKey: 'night' },
+          { period: 'Чайник авторского чая', subtext: '800 мл в ассортименте', weekday: '350 ₽', weekend: '350 ₽', filterKey: 'morning' },
+        ]
+      }
+    ]
+  },
+  'cyberx-oktyabr': {
+    pc: [
+      {
+        id: 'standard-oktyabr',
+        title: 'STANDARD',
+        badge: 'БАЗОВЫЙ',
+        iconType: 'Monitor',
+        specs: 'RTX 3060 / 4060 • 240Hz • Механика Dark Project',
+        rows: [
+          { period: 'УТРО (за 1 час)', subtext: '08:00 – 14:00', weekday: '110 ₽', weekend: '130 ₽', filterKey: 'morning' },
+          { period: '1 ЧАС', subtext: 'Обычный тариф', weekday: '150 ₽', weekend: '170 ₽', filterKey: '1h' },
+          { period: '3 ЧАСА', subtext: '08:00 – 19:00', weekday: '380 ₽', weekend: '430 ₽', filterKey: '3h' },
+          { period: '5 ЧАСОВ', subtext: 'Дневной сет', weekday: '600 ₽', weekend: '700 ₽', filterKey: '5h' },
+          { period: 'НОЧЬ', subtext: '22:00 – 08:00', weekday: '600 ₽', weekend: '800 ₽', filterKey: 'night' },
+        ]
+      },
+      {
+        id: 'bootcamp-oktyabr',
+        title: 'BOOTCAMP (5v5)',
+        badge: 'КОМАНДНЫЙ',
+        highlight: true,
+        iconType: 'Users',
+        specs: 'Изолированная комната 5 ПК • 280Hz • HyperX',
+        rows: [
+          { period: 'УТРО (за 1 ПК)', subtext: '08:00 – 14:00', weekday: '140 ₽', weekend: '160 ₽', filterKey: 'morning' },
+          { period: '1 ЧАС (за 1 ПК)', subtext: 'Обычный тариф', weekday: '180 ₽', weekend: '210 ₽', filterKey: '1h' },
+          { period: '3 ЧАСА (за 1 ПК)', subtext: '08:00 – 19:00', weekday: '460 ₽', weekend: '530 ₽', filterKey: '3h' },
+          { period: '5 ЧАСОВ (за 1 ПК)', subtext: 'Дневной сет', weekday: '750 ₽', weekend: '850 ₽', filterKey: '5h' },
+          { period: 'НОЧЬ (за 1 ПК)', subtext: '22:00 – 08:00', weekday: '900 ₽', weekend: '1 050 ₽', filterKey: 'night' },
+        ]
+      },
+      {
+        id: 'vip-oktyabr',
+        title: 'VIP ROOM',
+        badge: 'PRO КИБЕРСПОРТ',
+        iconType: 'Crown',
+        specs: 'RTX 4070 Ti • 360Hz • ZOWIE • Dark Project',
+        rows: [
+          { period: 'УТРО (за 1 час)', subtext: '08:00 – 14:00', weekday: '170 ₽', weekend: '200 ₽', filterKey: 'morning' },
+          { period: '1 ЧАС', subtext: 'Обычный тариф', weekday: '220 ₽', weekend: '250 ₽', filterKey: '1h' },
+          { period: '3 ЧАСА', subtext: '08:00 – 19:00', weekday: '580 ₽', weekend: '660 ₽', filterKey: '3h' },
+          { period: '5 ЧАСОВ', subtext: 'Дневной сет', weekday: '900 ₽', weekend: '1 050 ₽', filterKey: '5h' },
+          { period: 'НОЧЬ', subtext: '22:00 – 08:00', weekday: '1 100 ₽', weekend: '1 250 ₽', filterKey: 'night' },
+        ]
+      },
+      {
+        id: 'solo-oktyabr',
+        title: 'SOLO ROOM 600HZ',
+        badge: 'ТОП ФЛАГМАН',
+        iconType: 'Flame',
+        specs: 'Ryzen 7 7800X3D • BenQ 600Hz • Звукоизоляция',
+        rows: [
+          { period: 'УТРО (за 1 час)', subtext: '08:00 – 14:00', weekday: '220 ₽', weekend: '240 ₽', filterKey: 'morning' },
+          { period: '1 ЧАС', subtext: 'Обычный тариф', weekday: '280 ₽', weekend: '310 ₽', filterKey: '1h' },
+          { period: '3 ЧАСА', subtext: '08:00 – 19:00', weekday: '720 ₽', weekend: '800 ₽', filterKey: '3h' },
+          { period: '5 ЧАСОВ', subtext: 'Дневной сет', weekday: '1 100 ₽', weekend: '1 250 ₽', filterKey: '5h' },
+          { period: 'НОЧЬ', subtext: '22:00 – 08:00', weekday: '1 400 ₽', weekend: '1 600 ₽', filterKey: 'night' },
+        ]
+      },
+      {
+        id: 'duo-oktyabr',
+        title: 'DUO ROOM',
+        badge: 'ПАРНЫЙ ЗАЛ',
+        iconType: 'ShieldCheck',
+        specs: '2 Игрока • RTX 4070 • 280Hz • Приватный комфорт',
+        rows: [
+          { period: 'УТРО (за 1 ПК)', subtext: '08:00 – 14:00', weekday: '150 ₽', weekend: '170 ₽', filterKey: 'morning' },
+          { period: '1 ЧАС (за 1 ПК)', subtext: 'Обычный тариф', weekday: '190 ₽', weekend: '220 ₽', filterKey: '1h' },
+          { period: '3 ЧАСА (за 1 ПК)', subtext: '08:00 – 19:00', weekday: '500 ₽', weekend: '570 ₽', filterKey: '3h' },
+          { period: '5 ЧАСОВ (за 1 ПК)', subtext: 'Дневной сет', weekday: '800 ₽', weekend: '900 ₽', filterKey: '5h' },
+          { period: 'НОЧЬ (за 1 ПК)', subtext: '22:00 – 08:00', weekday: '1 000 ₽', weekend: '1 150 ₽', filterKey: 'night' },
+        ]
+      }
+    ],
+    lounge: [
+      {
+        id: 'sim-oktyabr',
+        title: 'АВТОСИМУЛЯТОРЫ',
+        badge: 'CYBERX ARENA (ЛЕНИНА, 19)',
+        highlight: true,
+        iconType: 'Gauge',
+        specs: 'Moza R9 Direct Drive • Квартет педалей • Спортивный ковш',
+        rows: [
+          { period: 'УТРО (за 1 час)', subtext: '08:00 – 14:00', weekday: '400 ₽', weekend: '500 ₽', filterKey: 'morning' },
+          { period: '1 ЧАС', subtext: 'Обычный тариф', weekday: '600 ₽', weekend: '700 ₽', filterKey: '1h' },
+          { period: '3 ЧАСА', subtext: '08:00 – 19:00', weekday: '1 000 ₽', weekend: '1 100 ₽', filterKey: '3h' },
+          { period: '5 ЧАСОВ', subtext: 'Дневной сет', weekday: '1 350 ₽', weekend: '1 500 ₽', filterKey: '5h' },
+          { period: 'НОЧЬ СЕТ', subtext: '22:00 – 08:00', weekday: '2 000 ₽', weekend: '2 500 ₽', filterKey: 'night' },
+        ]
+      },
+      {
+        id: 'tv-oktyabr',
+        title: 'АРЕНДА TV (PS5)',
+        badge: '3 ЗАЛА PS5 В ОКТЯБРЕ',
+        iconType: 'Tv',
+        specs: '4K OLED 65" • DualSense • Топ библиотека игр',
+        rows: [
+          { period: 'УТРО (за 1 час)', subtext: '08:00 – 14:00', weekday: '200 ₽', weekend: '300 ₽', filterKey: 'morning' },
+          { period: '1 ЧАС', subtext: 'Обычный тариф', weekday: '350 ₽', weekend: '350 ₽', filterKey: '1h' },
+          { period: '3 ЧАСА', subtext: '08:00 – 19:00', weekday: '900 ₽', weekend: '900 ₽', filterKey: '3h' },
+          { period: '5 ЧАСОВ', subtext: 'Дневной сет', weekday: '1 200 ₽', weekend: '1 200 ₽', filterKey: '5h' },
+          { period: 'НОЧЬ', subtext: '22:00 – 08:00', weekday: '1 000 ₽', weekend: '1 000 ₽', filterKey: 'night' },
+        ]
+      },
+      {
+        id: 'tv-pro-oktyabr',
+        title: 'TV PRO (85" ЭКРАН)',
+        badge: 'БОЛЬШОЙ 4K ЭКРАН',
+        iconType: 'Gamepad2',
+        specs: '85" 4K 120Hz • Увеличенная мягкая лаунж-зона',
+        rows: [
+          { period: 'УТРО (за 1 час)', subtext: '08:00 – 14:00', weekday: '350 ₽', weekend: '400 ₽', filterKey: 'morning' },
+          { period: '1 ЧАС', subtext: 'Обычный тариф', weekday: '450 ₽', weekend: '450 ₽', filterKey: '1h' },
+          { period: '3 ЧАСА', subtext: '08:00 – 19:00', weekday: '1 000 ₽', weekend: '1 000 ₽', filterKey: '3h' },
+          { period: '5 ЧАСОВ', subtext: 'Дневной сет', weekday: '1 500 ₽', weekend: '1 500 ₽', filterKey: '5h' },
+          { period: 'НОЧЬ СЕТ', subtext: '22:00 – 08:00', weekday: '1 400 ₽', weekend: '1 400 ₽', filterKey: 'night' },
+        ]
+      },
+      {
+        id: 'lounge-squad-oktyabr',
+        title: 'PREMIUM LOUNGE',
+        badge: 'ДО 10 ЧЕЛОВЕК',
+        iconType: 'Users',
+        specs: 'Приватная изолированная зона для компании',
+        rows: [
+          { period: 'УТРО (за 1 час)', subtext: '08:00 – 14:00', weekday: '1 200 ₽', weekend: '1 200 ₽', filterKey: 'morning' },
+          { period: '1 ЧАС', subtext: 'Обычный тариф', weekday: '1 600 ₽', weekend: '1 600 ₽', filterKey: '1h' },
+          { period: '3 ЧАСА', subtext: '08:00 – 19:00', weekday: '4 000 ₽', weekend: '4 000 ₽', filterKey: '3h' },
+          { period: '5 ЧАСОВ', subtext: 'Дневной сет', weekday: '5 500 ₽', weekend: '5 500 ₽', filterKey: '5h' },
+          { period: 'НОЧЬ СЕТ', subtext: '22:00 – 08:00', weekday: '6 500 ₽', weekend: '6 500 ₽', filterKey: 'night' },
+        ]
+      },
+      {
+        id: 'hookah-oktyabr',
+        title: 'ПАРОВЫЕ КОКТЕЙЛИ & БАР',
+        badge: 'ДОП. ОПЦИИ',
+        iconType: 'Coffee',
+        specs: 'Lounge Hookah, напитки, снеки и доп. геймпады',
+        rows: [
+          { period: 'Доп. игрок TV', subtext: 'За 1 час', weekday: '200 ₽', weekend: '200 ₽', filterKey: '1h' },
+          { period: 'Доплата за геймпад', subtext: '1–2 DualSense', weekday: '200 ₽', weekend: '350 ₽', filterKey: '1h' },
+          { period: 'Паровой коктейль', subtext: 'Lounge Hookah', weekday: '1 200 ₽', weekend: '1 200 ₽', filterKey: 'night' },
+          { period: 'Перезабивка чаши', subtext: 'Премиум табак', weekday: '600 ₽', weekend: '600 ₽', filterKey: 'night' },
+          { period: 'Чайник авторского чая', subtext: '800 мл в ассортименте', weekday: '350 ₽', weekend: '350 ₽', filterKey: 'morning' },
+        ]
+      }
+    ]
+  }
+};
+
 export const HARDWARE_LIST: HardwareItem[] = [
   {
     id: 'monitors',
@@ -285,7 +746,7 @@ export const HARDWARE_LIST: HardwareItem[] = [
     name: 'BenQ Zowie 600Hz / ASUS 480Hz / 400Hz',
     model: '600Hz / 480Hz / 400Hz / 240Hz Fast-TN & OLED // 0.03ms Response',
     tagline: 'Абсолютная рекордная частота обновления 600 кадров в секунду',
-    image: 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=1000&q=80',
+    image: '/images/hardware/benq-monitor.png',
     keySpecs: [
       { label: 'Флагманская герцовка', value: '600 Hz', detail: 'Установлены в Super VIP и Solo Rooms' },
       { label: 'VIP мониторы', value: '480 / 400 Hz', detail: 'ASUS 27" 480Гц и ViewSonic 400Гц' },
@@ -372,18 +833,18 @@ export const HARDWARE_LIST: HardwareItem[] = [
     id: 'chairs',
     category: 'chairs',
     categoryLabel: 'Эргономика',
-    name: 'Tesoro Zone & Master Pro',
-    model: 'Стальной каркас + холодная формованная пена + 3D/4D подлокотники',
-    tagline: 'Комфортная анатомическая посадка для длительных игровых сессий',
+    name: 'Фирменные кресла CyberX Esports Pro',
+    model: 'Анатомический стальной каркас 1.5мм + Memory Foam + 3D/4D подлокотники',
+    tagline: 'Фирменная эргономика CyberX для идеальной осанки во время 10+ часовых каток',
     image: 'https://images.unsplash.com/photo-1580481077195-c3a82da91883?auto=format&fit=crop&w=1000&q=80',
     keySpecs: [
-      { label: 'Каркас', value: 'Усиленная стальная рама', detail: 'Надежность до 150 кг' },
-      { label: 'Наполнитель', value: 'High Density Foam', detail: 'Не проминается со временем' },
-      { label: 'Подлокотники', value: '3D/4D Регулировка', detail: 'Вровень со столешницей' },
-      { label: 'Механизм качания', value: 'Top Gun / Multi-Block', detail: 'Откидывание спинки до 160°' },
+      { label: 'Каркас', value: 'Усиленная сталь 1.5мм', detail: 'Газлифт 4 класса, нагрузка до 150 кг' },
+      { label: 'Обивка', value: 'Перфорированная экокожа', detail: 'Дышащая микрофибра с теплоотводом' },
+      { label: 'Подлокотники', value: '3D/4D Ergo Регулировка', detail: 'Идеально вровень со столешницей' },
+      { label: 'Механизм качания', value: 'Мультиблок 90° — 165°', detail: 'Фиксация спинки в любом положении' },
     ],
-    description: 'Каждое место оснащено креслами Tesoro с поясничными и шейными подушками для правильной осанки и снятия нагрузки со спины.',
-    proAdvantage: 'Минимум усталости и максимальная концентрация на протяжении всей игровой ночи.',
+    description: 'Каждое место в наших клубах оснащено фирменными киберспортивными креслами CyberX с поясничными и шейными подушками Memory Foam для сохранения идеальной осанки.',
+    proAdvantage: 'Полное отсутствие усталости в спине и максимальная концентрация на протяжении всей игровой ночи.',
     interactiveType: 'ergonomics',
   }
 ];

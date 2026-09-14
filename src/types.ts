@@ -86,6 +86,46 @@ export interface Promotion {
   featured?: boolean;
 }
 
+export interface PriceRow {
+  period: string;
+  subtext?: string;
+  weekday: string;
+  weekend: string;
+  filterKey?: 'morning' | '1h' | '3h' | '5h' | 'night';
+}
+
+export interface PriceCategory {
+  id: string;
+  title: string;
+  badge?: string;
+  highlight?: boolean;
+  iconType?: string;
+  specs: string;
+  rows: PriceRow[];
+  extraInfo?: string;
+}
+
+export interface ClubPrices {
+  pc: PriceCategory[];
+  lounge: PriceCategory[];
+}
+
+export type AllPricesData = Record<string, ClubPrices>;
+
+export interface SiteLinks {
+  telegramHandle: string;
+  telegramUrl: string;
+  vkUrl: string;
+  googleFormUrl: string;
+  appStoreUrl: string;
+  phoneLenina: string;
+  phoneEvropa: string;
+  phoneOktyabr: string;
+  addressLenina: string;
+  addressEvropa: string;
+  addressOktyabr: string;
+}
+
 export interface BookingState {
   arenaId: string;
   zoneId: string;

@@ -5,7 +5,6 @@ import {
   Navigation, 
   Car, 
   Bus, 
-  Clock, 
   PhoneCall, 
   Send, 
   ExternalLink,
@@ -18,12 +17,16 @@ import { Dynamic2GisMap } from './Dynamic2GisMap';
 
 interface LocationMapSectionProps {
   onOpenBooking: (arenaId: string) => void;
+  arenasList?: typeof ARENAS;
 }
 
-export const LocationMapSection: React.FC<LocationMapSectionProps> = ({ onOpenBooking }) => {
-  const [selectedArenaId, setSelectedArenaId] = useState<string>(ARENAS[1].id); // Default to CyberX Arena Flagship
+export const LocationMapSection: React.FC<LocationMapSectionProps> = ({ 
+  onOpenBooking,
+  arenasList = ARENAS,
+}) => {
+  const [selectedArenaId, setSelectedArenaId] = useState<string>(arenasList[1]?.id || arenasList[0]?.id || 'cyberx-arena');
 
-  const activeArena = ARENAS.find((a) => a.id === selectedArenaId) || ARENAS[1];
+  const activeArena = arenasList.find((a) => a.id === selectedArenaId) || arenasList[1] || arenasList[0];
 
   const arenaLocationDetails: Record<string, {
     gisUrl: string;
@@ -46,7 +49,7 @@ export const LocationMapSection: React.FC<LocationMapSectionProps> = ({ onOpenBo
       mapQuery: 'Омск, ул. Ленина, 19',
     },
     'cyberx-evropa': {
-      gisUrl: 'https://2gis.ru/omsk/search/CyberX%20%D0%9C%D0%B8%D1%80%D0%B0%2042%D0%BA1',
+      gisUrl: 'https://2gis.ru/omsk/firm/70000001105204416',
       landmark: 'Нефтяники, студенческий кластер возле ОмГТУ (Политех)',
       publicTransport: [
         'Ост. «Технический университет (Политех)» — 3 мин пешком',
@@ -58,7 +61,7 @@ export const LocationMapSection: React.FC<LocationMapSectionProps> = ({ onOpenBo
       mapQuery: 'Омск, просп. Мира, 42к1',
     },
     'cyberx-oktyabr': {
-      gisUrl: 'https://2gis.ru/omsk/search/CyberX%20%D0%A1%D0%B5%D1%80%D0%BE%D0%B2%D0%B0%2019%D0%90',
+      gisUrl: 'https://2gis.ru/omsk/firm/70000001102629279',
       landmark: 'Ленинский округ, район Ленинского рынка и киноцентра «Галактика»',
       publicTransport: [
         'Ост. «Улица Серова» — 2 мин пешком',
@@ -66,7 +69,7 @@ export const LocationMapSection: React.FC<LocationMapSectionProps> = ({ onOpenBo
         'Ост. «Ж/д вокзал» — 10 мин пешком'
       ],
       parking: 'Удобная парковочная зона прямо перед входом',
-      entranceHint: 'Отдельный вход с ул. Серова, вывеска CyberX с подсветкой',
+      entranceHint: 'Отдельный вход с ул. Серова (ТК Октябрь, 1 этаж), вывеска CyberX с подсветкой',
       mapQuery: 'Омск, ул. Серова, 19А',
     },
   };
@@ -79,20 +82,17 @@ export const LocationMapSection: React.FC<LocationMapSectionProps> = ({ onOpenBo
   };
 
   return (
-    <section id="location" className="relative py-24 sm:py-32 bg-transparent overflow-hidden scroll-mt-24">
-      
-      {/* Ambient background glows */}
-      <div className="pointer-events-none absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-[#E32124]/[0.035] rounded-full blur-[160px]" />
+    <section id="location" className="relative py-8 sm:py-12 bg-transparent overflow-hidden scroll-mt-24">
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Section Header (Centered) */}
         <motion.div 
-          initial={{ opacity: 0, y: 35 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center max-w-3xl mx-auto mb-14"
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className="text-center max-w-3xl mx-auto mb-8"
         >
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E32124]/10 border border-[#E32124]/30 text-[#E32124] text-xs font-mono font-bold tracking-wider uppercase mb-3.5">
             <Compass className="w-3.5 h-3.5" />
@@ -106,15 +106,15 @@ export const LocationMapSection: React.FC<LocationMapSectionProps> = ({ onOpenBo
           </p>
         </motion.div>
 
-        {/* Interactive Arena Switcher Tabs (Rounded) */}
+        {/* Interactive Arena Switcher Tabs (Centered & Balanced) */}
         <motion.div 
-          initial={{ opacity: 0, y: 25 }}
+          initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-50px' }}
-          transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-10"
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.5, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6"
         >
-          {ARENAS.map((arena) => {
+          {arenasList.map((arena) => {
             const isSelected = arena.id === selectedArenaId;
             return (
               <button
@@ -124,10 +124,10 @@ export const LocationMapSection: React.FC<LocationMapSectionProps> = ({ onOpenBo
                   setSelectedArenaId(arena.id);
                 }}
                 onMouseEnter={() => sound.playHover()}
-                className={`p-4 sm:p-5 rounded-2xl text-left transition-all duration-300 border backdrop-blur-xl relative cursor-pointer ${
+                className={`p-5 rounded-2xl text-center flex flex-col items-center justify-center transition-all duration-300 border relative cursor-pointer ${
                   isSelected
                     ? 'bg-[#151522] border-[#E32124] shadow-xl shadow-red-950/40 translate-y-[-2px]'
-                    : 'bg-[#0a0a0f]/80 hover:bg-[#101018] border-white/[0.08] hover:border-white/20'
+                    : 'bg-[#0a0a0f]/90 hover:bg-[#101018] border-white/[0.08] hover:border-white/20'
                 }`}
               >
                 {/* Active Indicator Top Glow */}
@@ -135,20 +135,15 @@ export const LocationMapSection: React.FC<LocationMapSectionProps> = ({ onOpenBo
                   <div className="absolute top-0 left-6 right-6 h-[2px] bg-gradient-to-r from-transparent via-[#E32124] to-transparent" />
                 )}
 
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-[10px] font-mono uppercase font-bold text-[#E32124]">
-                    {arena.id === 'cyberx-arena' ? 'Флагман • Центр' : arena.id === 'cyberx-evropa' ? 'Нефтяники' : 'Ленинский р-н'}
-                  </span>
-                  <div className="flex items-center gap-1 text-emerald-400 text-xs font-mono font-semibold">
-                    <Clock className="w-3 h-3" />
-                    <span>24/7</span>
-                  </div>
-                </div>
+                <span className="text-[10px] font-mono uppercase font-bold text-[#E32124] mb-1">
+                  {arena.id === 'cyberx-arena' ? 'Флагман • Центр' : arena.id === 'cyberx-evropa' ? 'Нефтяники' : 'Ленинский р-н'}
+                </span>
 
                 <div className="font-display font-black text-base sm:text-lg text-white uppercase">
                   {arena.name.split('//')[0].trim()}
                 </div>
-                <div className="text-xs text-zinc-400 mt-1 flex items-center gap-1.5 truncate font-mono">
+
+                <div className="text-xs text-zinc-400 mt-1 flex items-center justify-center gap-1.5 font-mono">
                   <MapPin className="w-3.5 h-3.5 text-[#E32124] shrink-0" />
                   <span>{arena.address}</span>
                 </div>

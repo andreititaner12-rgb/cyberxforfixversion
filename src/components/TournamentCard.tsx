@@ -8,7 +8,7 @@ import {
   Flame, 
   Layers,
   Trophy,
-  Sparkles
+  Award
 } from 'lucide-react';
 import { sound } from '../utils/sound';
 import { motion } from 'framer-motion';
@@ -65,15 +65,12 @@ export const TournamentCard: React.FC<TournamentCardProps> = ({
   const slotPercentage = Math.round((tournament.slotsRegistered / tournament.slotsTotal) * 100);
 
   return (
-    <section id="tournaments" className="relative py-20 bg-transparent overflow-hidden scroll-mt-24 select-none">
-      
-      {/* Background ambient red glow */}
-      <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#E32124]/[0.05] rounded-full blur-[160px]" />
+    <section id="tournaments" className="relative py-8 sm:py-12 bg-transparent overflow-hidden scroll-mt-24 select-none">
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* 1. Unified Section Header (Вынесенный заголовок блока) */}
-        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
+        <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#E32124]/10 border border-[#E32124]/30 text-[#E32124] text-xs font-mono uppercase tracking-widest mb-4">
             <Trophy className="w-3.5 h-3.5 animate-pulse" />
             <span>КИБЕРСПОРТИВНАЯ LAN СЦЕНА // ОМСКИЕ БИТВЫ</span>
@@ -88,11 +85,11 @@ export const TournamentCard: React.FC<TournamentCardProps> = ({
 
         {/* 2. Main High-Impact Tournament Banner (Rounded Dark Luxury) */}
         <motion.div 
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] }}
-          className="relative rounded-3xl border border-white/[0.12] bg-gradient-to-br from-[#12121c] via-[#0d0d14] to-[#08080c] p-6 sm:p-10 lg:p-12 overflow-hidden shadow-2xl"
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className="relative rounded-3xl border border-white/[0.08] bg-gradient-to-br from-[#0c0c14] via-[#08080e] to-[#040408] p-6 sm:p-10 lg:p-12 overflow-hidden shadow-2xl"
         >
           
           {/* Top subtle glow line */}
@@ -193,7 +190,7 @@ export const TournamentCard: React.FC<TournamentCardProps> = ({
                   {tournament.prizePool}
                 </div>
                 <div className="text-xs text-[#E32124] mt-1 flex items-center justify-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5" />
+                  <Award className="w-3.5 h-3.5" />
                   <span>+ Кубок CyberX Omsk и часы в Premium</span>
                 </div>
               </div>

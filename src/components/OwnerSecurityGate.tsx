@@ -82,8 +82,13 @@ export const OwnerSecurityGate: React.FC<OwnerSecurityGateProps> = ({
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#020204]/95 backdrop-blur-2xl select-none font-mono">
       
-      {/* Ambient Red Glows */}
-      <div className="pointer-events-none absolute w-[600px] h-[600px] bg-[#E32124]/[0.12] rounded-full blur-[180px]" />
+      {/* Ambient Red Glows (Seamless Radial Gradient) */}
+      <div 
+        className="pointer-events-none absolute w-[700px] h-[700px]"
+        style={{
+          background: 'radial-gradient(circle at center, rgba(227, 33, 36, 0.14) 0%, rgba(227, 33, 36, 0.03) 50%, transparent 70%)',
+        }}
+      />
 
       <motion.div
         initial={{ opacity: 0, scale: 0.92, y: 20 }}

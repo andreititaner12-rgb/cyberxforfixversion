@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import Lenis from 'lenis';
+import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { BrandManifesto } from './components/BrandManifesto';
@@ -18,7 +19,24 @@ import { OwnerAdminModal } from './components/OwnerAdminModal';
 import { OwnerSecurityGate, MASTER_SECRET_KEY } from './components/OwnerSecurityGate';
 import { CustomCrosshairCursor } from './components/CustomCrosshairCursor';
 import { Preloader } from './components/Preloader';
-import { UPCOMING_TOURNAMENT, PROMOTIONS } from './data/arenaData';
+import { CyberSectionDivider } from './components/ui/CyberSectionDivider';
+import { CyberBackground } from './components/ui/CyberBackground';
+import { 
+  UPCOMING_TOURNAMENT, 
+  PROMOTIONS, 
+  ZONES, 
+  ARENAS, 
+  DEFAULT_PRICES, 
+  DEFAULT_LINKS 
+} from './data/arenaData';
+import { 
+  ZoneType, 
+  ArenaLocation, 
+  SiteLinks, 
+  AllPricesData, 
+  Tournament, 
+  Promotion 
+} from './types';
 import { sound } from './utils/sound';
 import { Shield } from 'lucide-react';
 
@@ -26,6 +44,16 @@ export function App() {
   const [loading, setLoading] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
   const audioPlayedRef = useRef(false);
+  const lenisRef = useRef<Lenis | null>(null);
+
+  // Smooth Top Scroll Progress Tracker
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 120,
+    damping: 28,
+    restDelta: 0.001,
+  });
+  const progressOpacity = useTransform(scrollYProgress, [0, 0.003], [0, 1]);
 
   // Modal states
   const [bookingOpen, setBookingOpen] = useState(false);
@@ -43,23 +71,130 @@ export function App() {
   // Selected arena in the ecosystem (Default to CyberX Arena - Flagship)
   const [selectedArenaId] = useState<string>('cyberx-arena');
 
-  // Dynamic state for live editing by owner
-  const [liveTournament, setLiveTournament] = useState(UPCOMING_TOURNAMENT);
-  const [livePromos, setLivePromos] = useState(PROMOTIONS);
-
-  // Voice Intro Welcome audio
-  const playWelcomeVoice = () => {
-    if (audioPlayedRef.current || isMuted) return;
-    audioPlayedRef.current = true;
+  // Dynamic state for live prices with localStorage persistence
+  const [livePrices, setLivePrices] = useState<AllPricesData>(() => {
     try {
-      const audio = new Audio('/audio/welcome-cyberx.mp3');
-      audio.volume = 0.75;
-      audio.play().catch(() => {
-        // Handled silently if autoplay restricted by browser until user click
-      });
+      const saved = localStorage.getItem('cyberx_live_prices');
+      return saved ? JSON.parse(saved) : DEFAULT_PRICES;
     } catch {
-      // Handled silently
+      return DEFAULT_PRICES;
     }
+  });
+
+  // Dynamic state for live links & contacts with localStorage persistence
+  const [liveLinks, setLiveLinks] = useState<SiteLinks>(() => {
+    try {
+      const saved = localStorage.getItem('cyberx_live_links');
+      return saved ? JSON.parse(saved) : DEFAULT_LINKS;
+    } catch {
+      return DEFAULT_LINKS;
+    }
+  });
+
+  // Dynamic state for live arenas with localStorage persistence
+  const [liveArenas, setLiveArenas] = useState<ArenaLocation[]>(() => {
+    try {
+      const saved = localStorage.getItem('cyberx_live_arenas');
+      return saved ? JSON.parse(saved) : ARENAS;
+    } catch {
+      return ARENAS;
+    }
+  });
+
+  // Dynamic state for live zones with localStorage persistence
+  const [liveZones, setLiveZones] = useState<ZoneType[]>(() => {
+    try {
+      const saved = localStorage.getItem('cyberx_live_zones');
+      if (saved) {
+        const parsed: ZoneType[] = JSON.parse(saved);
+        return parsed.map(z => {
+          const fresh = ZONES.find(f => f.id === z.id);
+          return fresh && z.image?.includes('langame.ru') ? { ...z, image: fresh.image } : z;
+        });
+      }
+      return ZONES;
+    } catch {
+      return ZONES;
+    }
+  });
+
+  // Dynamic state for live tournament with localStorage persistence
+  const [liveTournament, setLiveTournament] = useState<Tournament>(() => {
+    try {
+      const saved = localStorage.getItem('cyberx_live_tournament');
+      return saved ? JSON.parse(saved) : UPCOMING_TOURNAMENT;
+    } catch {
+      return UPCOMING_TOURNAMENT;
+    }
+  });
+
+  // Dynamic state for live promotions with localStorage persistence
+  const [livePromos, setLivePromos] = useState<Promotion[]>(() => {
+    try {
+      const saved = localStorage.getItem('cyberx_live_promos');
+      return saved ? JSON.parse(saved) : PROMOTIONS;
+    } catch {
+      return PROMOTIONS;
+    }
+  });
+
+  // Reset to factory defaults handler
+  const handleRestoreAllDefaults = () => {
+    localStorage.removeItem('cyberx_live_prices');
+    localStorage.removeItem('cyberx_live_links');
+    localStorage.removeItem('cyberx_live_arenas');
+    localStorage.removeItem('cyberx_live_zones');
+    localStorage.removeItem('cyberx_live_tournament');
+    localStorage.removeItem('cyberx_live_promos');
+
+    setLivePrices(DEFAULT_PRICES);
+    setLiveLinks(DEFAULT_LINKS);
+    setLiveArenas(ARENAS);
+    setLiveZones(ZONES);
+    setLiveTournament(UPCOMING_TOURNAMENT);
+    setLivePromos(PROMOTIONS);
+  };
+
+  // Import full JSON data handler
+  const handleImportAllData = (data: {
+    prices?: AllPricesData;
+    links?: SiteLinks;
+    arenas?: ArenaLocation[];
+    zones?: ZoneType[];
+    tournament?: Tournament;
+    promotions?: Promotion[];
+  }) => {
+    if (data.prices) {
+      setLivePrices(data.prices);
+      localStorage.setItem('cyberx_live_prices', JSON.stringify(data.prices));
+    }
+    if (data.links) {
+      setLiveLinks(data.links);
+      localStorage.setItem('cyberx_live_links', JSON.stringify(data.links));
+    }
+    if (data.arenas) {
+      setLiveArenas(data.arenas);
+      localStorage.setItem('cyberx_live_arenas', JSON.stringify(data.arenas));
+    }
+    if (data.zones) {
+      setLiveZones(data.zones);
+      localStorage.setItem('cyberx_live_zones', JSON.stringify(data.zones));
+    }
+    if (data.tournament) {
+      setLiveTournament(data.tournament);
+      localStorage.setItem('cyberx_live_tournament', JSON.stringify(data.tournament));
+    }
+    if (data.promotions) {
+      setLivePromos(data.promotions);
+      localStorage.setItem('cyberx_live_promos', JSON.stringify(data.promotions));
+    }
+  };
+
+  // Voice Intro Welcome audio (Single-trigger guarantee)
+  const playWelcomeVoice = () => {
+    if (audioPlayedRef.current || isMuted || sound.hasVoiceStarted()) return;
+    audioPlayedRef.current = true;
+    sound.playVoiceGreeting().catch(() => {});
   };
 
   // Check URL hash & session for secret admin access
@@ -85,7 +220,7 @@ export function App() {
     return () => window.removeEventListener('hashchange', checkSecretUrl);
   }, []);
 
-  // Smooth scroll using Lenis
+  // Smooth scroll using Lenis (with strict RAF cancellation)
   useEffect(() => {
     if (loading) return;
 
@@ -95,18 +230,39 @@ export function App() {
       orientation: 'vertical',
       smoothWheel: true,
     });
+    lenisRef.current = lenis;
 
+    let reqId: number;
     function raf(time: number) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      reqId = requestAnimationFrame(raf);
     }
 
-    requestAnimationFrame(raf);
+    reqId = requestAnimationFrame(raf);
+
+    // Handle resize / fullscreen transitions seamlessly
+    const handleResize = () => {
+      lenis.resize();
+    };
+    window.addEventListener('resize', handleResize);
 
     return () => {
+      cancelAnimationFrame(reqId);
+      window.removeEventListener('resize', handleResize);
       lenis.destroy();
+      lenisRef.current = null;
     };
   }, [loading]);
+
+  // Pause / Resume Lenis when any modal is opened / closed
+  useEffect(() => {
+    const isAnyModalOpen = tournamentsOpen || bookingOpen || adminOpen || gateOpen;
+    if (isAnyModalOpen) {
+      lenisRef.current?.stop();
+    } else {
+      lenisRef.current?.start();
+    }
+  }, [tournamentsOpen, bookingOpen, adminOpen, gateOpen]);
 
   const handleOpenBooking = (arenaId?: string, zoneId?: string) => {
     setBookingArenaId(arenaId);
@@ -129,83 +285,102 @@ export function App() {
 
   const handlePreloaderComplete = () => {
     setLoading(false);
-    setTimeout(() => {
+    if (!audioPlayedRef.current && !sound.hasVoiceStarted()) {
       playWelcomeVoice();
-    }, 400);
+    }
   };
 
   return (
     <div 
       onClick={() => {
-        // Enable Web-Audio UI sounds on the first user gesture (AudioContext needs one)
+        // Enable Web-Audio UI sounds on user gesture
         sound.setEnabled(!isMuted);
-        if (!audioPlayedRef.current && !loading) {
+        if (!audioPlayedRef.current && !loading && !sound.hasVoiceStarted()) {
           playWelcomeVoice();
         }
       }}
-      className="relative min-h-screen bg-[#030305] text-[#FEFEFE] selection:bg-[#E32124] selection:text-white cursor-default"
+      className="relative min-h-screen bg-[#020204] text-[#FEFEFE] selection:bg-[#E32124] selection:text-white cursor-default overflow-x-hidden"
     >
       
       {/* 1. CyberX CS2 Tactical Crosshair Reticle Cursor */}
       <CustomCrosshairCursor />
 
-      {/* 2. CyberX Sleek Loading Screen */}
+      {/* 2. Global Neon CyberX Top Scroll Progress Indicator (Replaces standard right scrollbar, 0 initial flicker) */}
+      {!loading && (
+        <motion.div
+          style={{ scaleX, opacity: progressOpacity }}
+          className="fixed top-0 left-0 right-0 h-[3px] sm:h-[3.5px] bg-gradient-to-r from-[#8B0000] via-[#E32124] to-[#FF4D4D] shadow-[0_0_14px_#E32124,0_0_24px_rgba(227,33,36,0.85)] z-[100] origin-left pointer-events-none"
+        />
+      )}
+
+      {/* 3. CyberX Sleek Loading Screen */}
       {loading && <Preloader onComplete={handlePreloaderComplete} />}
 
-      {/* 3. Top Header with macOS Blurry Mask & Retractable Navigation */}
-        <Header
-          onOpenBooking={() => handleOpenBooking()}
-          onOpenTournaments={() => handleOpenTournaments()}
-          isMuted={isMuted}
-          onToggleMute={() => {
-            const next = !isMuted;
-            setIsMuted(next);
-            sound.setEnabled(!next);
-          }}
-        />
+      {/* 4. Top Header with macOS Blurry Mask & Retractable Navigation */}
+      <Header
+        onOpenBooking={() => handleOpenBooking()}
+        onOpenTournaments={() => handleOpenTournaments()}
+        isMuted={isMuted}
+        onToggleMute={() => {
+          const next = !isMuted;
+          setIsMuted(next);
+          sound.setEnabled(!next);
+        }}
+      />
 
-      {/* 4. Full-Screen Cinematic Hero (Video without text, new capsule trigger, updated nav order) */}
+      {/* 4. Full-Screen Cinematic Hero */}
       <Hero isReady={!loading} />
 
-      {/* 5. Smooth Flowing Content Container (Zero Tearing, 100% Solid Hardware Composition) */}
+      {/* 5. Main Content Curtain with Smooth Native Scrolling (Deep Obsidian / Dark Titanium Canvas with Dot Matrix & Ambient Glows) */}
       <div 
         id="content-curtain"
-        className="relative z-20 rounded-t-[36px] sm:rounded-t-[50px] border-t border-white/[0.1] shadow-[0_-30px_90px_rgba(0,0,0,0.98)] overflow-hidden bg-[#050508]"
+        className="relative z-20 border-t border-white/[0.08] rounded-t-[32px] sm:rounded-t-[40px] shadow-[0_-30px_90px_rgba(0,0,0,0.98)] overflow-hidden bg-[#020204]"
       >
-        
-        {/* Ambient Crimson Nebula Glow Accents */}
-        <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#E32124]/[0.06] rounded-full blur-[160px]" />
-        <div className="pointer-events-none absolute top-1/3 right-0 w-[600px] h-[600px] bg-[#930E10]/[0.04] rounded-full blur-[180px]" />
-        <div className="pointer-events-none absolute top-2/3 left-0 w-[600px] h-[600px] bg-[#E32124]/[0.035] rounded-full blur-[180px]" />
+        {/* High-Tech Cyber Background with Dot Matrix, Ambient Glow Orbs & Gradient Canvas */}
+        <CyberBackground />
 
-        {/* Top Glow Accent Bar */}
-        <div className="absolute top-0 left-1/4 right-1/4 h-[1.5px] bg-gradient-to-r from-transparent via-[#E32124]/70 to-transparent z-10" />
-
-        <main className="relative z-10 space-y-12 sm:space-y-16">
+        <main className="relative z-10 pt-4 pb-12">
           
-          {/* A. Brand Manifesto & Core Pillars (CYBERX // АРЕНЫ ОМСКА) */}
+          {/* A. Brand Manifesto */}
           <BrandManifesto />
 
-          {/* B. Three Arenas Ecosystem (Европа, CyberX Arena [в центре], Октябрь) */}
+          {/* Section Divider 01 */}
+          <CyberSectionDivider tag="01" />
+
+          {/* B. Three Arenas Ecosystem */}
           <ArenaEcosystem
             onOpenBooking={(arenaId) => handleOpenBooking(arenaId)}
             selectedArenaId={selectedArenaId}
+            arenasList={liveArenas}
           />
 
-          {/* C. Spaces & Rooms Bento Showcase with In-Card Photos & Dynamic Expansion */}
+          {/* Section Divider 02 */}
+          <CyberSectionDivider tag="02" />
+
+          {/* C. Spaces & Rooms Bento Showcase */}
           <ZonesShowcase
             onOpenBooking={(arenaId, zoneId) => handleOpenBooking(arenaId, zoneId)}
+            zonesList={liveZones}
           />
 
-          {/* D. Dedicated Sim-Racing Banner (2 Кокпита на Ленина) */}
+          {/* Section Divider 03 */}
+          <CyberSectionDivider tag="03" />
+
+          {/* D. Dedicated Sim-Racing Banner */}
           <div id="sim-racing">
             <SimRacingBanner
               onOpenBooking={(arenaId, zoneId) => handleOpenBooking(arenaId, zoneId)}
             />
           </div>
 
-          {/* E. Interactive Hardware & Peripherals Visualizer (BenQ 600Hz, Ryzen 7800X3D, RTX 5070 Ti) */}
+          {/* Section Divider 04 */}
+          <CyberSectionDivider tag="04" />
+
+          {/* E. Interactive Hardware Visualizer */}
           <HardwareVisualizer />
+
+          {/* Section Divider 05 */}
+          <CyberSectionDivider tag="05" />
 
           {/* F. Standalone Upcoming Tournament Spotlight Card */}
           <TournamentCard
@@ -214,10 +389,17 @@ export function App() {
             tournamentData={liveTournament}
           />
 
-          {/* G. NEW: Interactive Price List Section (Strictly between Tournament and Promotions) */}
+          {/* Section Divider 06 */}
+          <CyberSectionDivider tag="06" />
+
+          {/* G. Interactive Price List Section */}
           <PriceSection
+            prices={livePrices}
             onOpenBooking={(arenaId, zoneId) => handleOpenBooking(arenaId, zoneId)}
           />
+
+          {/* Section Divider 07 */}
+          <CyberSectionDivider tag="07" />
 
           {/* H. Exclusive Offers & Promos */}
           <PromoSection
@@ -225,16 +407,23 @@ export function App() {
             promotionsList={livePromos}
           />
 
+          {/* Section Divider 08 */}
+          <CyberSectionDivider tag="08" />
+
           {/* I. Interactive 2GIS Navigation Map Section ("Как добраться?") */}
           <LocationMapSection
             onOpenBooking={(arenaId) => handleOpenBooking(arenaId)}
+            arenasList={liveArenas}
           />
+
         </main>
 
         {/* Footer */}
         <Footer
           onOpenBooking={() => handleOpenBooking()}
           onOpenTournaments={() => handleOpenTournaments()}
+          arenasList={liveArenas}
+          siteLinks={liveLinks}
         />
 
       </div>
@@ -286,8 +475,20 @@ export function App() {
       <OwnerAdminModal
         isOpen={adminOpen}
         onClose={() => setAdminOpen(false)}
+        currentPrices={livePrices}
+        onSaveLivePrices={(updated) => setLivePrices(updated)}
+        currentLinks={liveLinks}
+        onSaveLiveLinks={(updated) => setLiveLinks(updated)}
+        currentArenas={liveArenas}
+        onSaveLiveArenas={(updated) => setLiveArenas(updated)}
+        currentZones={liveZones}
+        onSaveLiveZones={(updated) => setLiveZones(updated)}
+        currentTournament={liveTournament}
         onSaveLiveTournament={(updated) => setLiveTournament(updated)}
+        currentPromos={livePromos}
         onSaveLivePromos={(updated) => setLivePromos(updated)}
+        onRestoreAllDefaults={handleRestoreAllDefaults}
+        onImportAllData={handleImportAllData}
         onLogout={handleOwnerLogout}
       />
 

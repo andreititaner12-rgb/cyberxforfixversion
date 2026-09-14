@@ -9,26 +9,20 @@
     --color-cyberx-white: #FEFEFE;
   }
 
-  body {
+  /* Ultra-Clean Modern App Window: Native Scrollbars Hidden */
+  html, body {
     background-color: #000000;
     color: #FEFEFE;
     font-family: 'Montserrat', sans-serif;
     overflow-x: hidden;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
   }
 
-  /* Custom scrollbar */
   ::-webkit-scrollbar {
-    width: 6px;
-  }
-  ::-webkit-scrollbar-track {
-    background: #000000;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #18181F;
-    border-radius: 3px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: #E32124;
+    display: none; /* Chrome, Safari, Opera */
+    width: 0px;
+    height: 0px;
   }
 }
 
@@ -48,6 +42,55 @@
 .border-cyberx-glow {
   border-color: rgba(227, 33, 36, 0.6);
   box-shadow: 0 0 22px -3px rgba(227, 33, 36, 0.35);
+}
+
+/* Cyberpunk Dot Matrix Canvas */
+.cyber-dots-bg {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Subtle Technical Cyber Grid */
+.cyber-grid-subtle {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+/* Dynamic Seamless CyberX Canvas (Deep Obsidian Canvas - Maximum Red Contrast) */
+.cyberx-ambient-lights {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: 
+    radial-gradient(circle at 15% 10%, rgba(15, 23, 42, 0.04) 0%, transparent 45%),
+    radial-gradient(circle at 85% 30%, rgba(227, 33, 36, 0.035) 0%, transparent 45%),
+    radial-gradient(circle at 20% 60%, rgba(10, 15, 28, 0.045) 0%, transparent 50%),
+    radial-gradient(circle at 80% 85%, rgba(227, 33, 36, 0.025) 0%, transparent 45%);
+}
+
+/* Background Ripple Cell Animation (Aceternity UI) */
+@keyframes cell-ripple {
+  0% {
+    background-color: transparent;
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: none;
+  }
+  40% {
+    background-color: rgba(227, 33, 36, 0.28);
+    border-color: rgba(227, 33, 36, 0.85);
+    box-shadow: 0 0 25px rgba(227, 33, 36, 0.6);
+  }
+  100% {
+    background-color: transparent;
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: none;
+  }
+}
+
+.animate-cell-ripple {
+  animation: cell-ripple var(--duration, 400ms) cubic-bezier(0.16, 1, 0.3, 1) none 1 var(--delay, 0ms);
 }
 
 /* Glass Panels */
@@ -89,17 +132,24 @@
   pointer-events: none;
 }
 
-/* Dark Monochrome B&W Tile filter for OpenStreetMap (Zero API key, zero watermarks) */
-.dark-monochrome-tiles {
-  filter: grayscale(100%) invert(92%) contrast(145%) brightness(85%) !important;
-  -webkit-filter: grayscale(100%) invert(92%) contrast(145%) brightness(85%) !important;
+/* CartoDB Dark Matter styling for Leaflet */
+.carto-dark-matter-tiles {
+  filter: contrast(108%) brightness(95%);
+}
+
+.leaflet-container {
+  background-color: #020204 !important;
+  font-family: inherit;
+}
+
+.leaflet-tile-pane {
+  background-color: #020204 !important;
 }
 
 .custom-cyberx-pin {
   background: transparent !important;
   border: none !important;
 }
-
 
 /* Золотой переливающийся акцент для слова «ЭКСКЛЮЗИВ» */
 .text-gold-shimmer {
